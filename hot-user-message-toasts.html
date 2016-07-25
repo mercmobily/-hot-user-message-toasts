@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+
+<!--
+`hot-user-message-toasts`
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="hot-user-message-toasts">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-toast#user-message-success {
+        --paper-toast-background-color: green;
+        --paper-toast-color: white;
+      };
+      paper-toast#user-message-info{
+        --paper-toast-background-color: gray;
+        --paper-toast-color: white;
+      };
+      paper-toast#user-message-error {
+        --paper-toast-background-color: red;
+        --paper-toast-color: white;
+      };
+
+    </style>
+
+    <paper-toast id="user-message-success"></paper-toast>
+    <paper-toast id="user-message-info"></paper-toast>
+    <paper-toast id="user-message-error"></paper-toast>
+    <content></content>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'hot-user-message-toasts',
+
+      properties: {
+      },
+
+      attached: function(){
+        this.listen( this, 'user-message-success', '_messageArrived' );
+        this.listen( this, 'user-message-info', '_messageArrived' );
+        this.listen( this, 'user-message-error', '_messageArrived' );
+      },
+
+      detached: function(){
+        this.unlisten( this, 'user-message-success', '_messageArrived' );
+        this.unlisten( this, 'user-message-info', '_messageArrived' );
+        this.unlisten( this, 'user-message-error', '_messageArrived' );
+      },
+
+      _messageArrived: function( e ){
+        console.log("MESSAGE ARRIVED!", e.type );
+        console.log( e );
+        var toast = this.$[ e.type ];
+        toast.text = e.detail.message;
+        toast.show();
+      }
+
+
+
+    });
+  </script>
+</dom-module>
