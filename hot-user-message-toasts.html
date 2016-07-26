@@ -4,6 +4,16 @@
 <!--
 `hot-user-message-toasts`
 
+Simple, tiny widget that will listen to user-message-success, user-message-info and user-message-error and will display a paper-toast with the message.
+
+Each event type has a different paper toast assigned to it. Each paper toast is themable with a mixin.
+Because of the nature of the toasts, this widget should be higher up in your DOM.
+
+In your index.html you might have:
+
+    <hot-user-message-toasts>
+      <my-app></my-app>
+    </hot-user-message-toasts>
 
 @demo demo/index.html
 -->
@@ -14,25 +24,28 @@
       :host {
         display: block;
       }
-
-      paper-toast#user-message-success {
+      paper-toast#success {
         --paper-toast-background-color: green;
         --paper-toast-color: white;
-      };
-      paper-toast#user-message-info{
+        @apply(hot-user-message-toasts-success);
+      }
+      ;
+      paper-toast#info {
         --paper-toast-background-color: gray;
         --paper-toast-color: white;
+        @apply(hot-user-message-toasts-success);
       };
-      paper-toast#user-message-error {
+
+      paper-toast#error {
         --paper-toast-background-color: red;
         --paper-toast-color: white;
+        @apply(hot-user-message-toasts-success);
       };
-
     </style>
 
-    <paper-toast id="user-message-success"></paper-toast>
-    <paper-toast id="user-message-info"></paper-toast>
-    <paper-toast id="user-message-error"></paper-toast>
+    <paper-toast id="success"></paper-toast>
+    <paper-toast id="info"></paper-toast>
+    <paper-toast id="error"></paper-toast>
     <content></content>
   </template>
 
@@ -40,9 +53,6 @@
     Polymer({
 
       is: 'hot-user-message-toasts',
-
-      properties: {
-      },
 
       attached: function(){
         this.listen( this, 'user-message-success', '_messageArrived' );
@@ -57,15 +67,11 @@
       },
 
       _messageArrived: function( e ){
-        console.log("MESSAGE ARRIVED!", e.type );
-        console.log( e );
-        var toast = this.$[ e.type ];
+        var type = e.type.split('-')[2];
+        var toast = this.$[ type ];
         toast.text = e.detail.message;
         toast.show();
       }
-
-
-
     });
   </script>
 </dom-module>
