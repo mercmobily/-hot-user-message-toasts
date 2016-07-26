@@ -1,38 +1,13 @@
-# \<hot-user-message-toasts\>
+`hot-user-message-toasts`
 
+Simple, tiny widget that will listen to user-message-success, user-message-info and user-message-error and will display a paper-toast with the message.
 
+Each event type has a different paper toast assigned to it. Each paper toast is themable with a mixin.
+Because of the nature of the toasts, this widget should be higher up in your DOM.
 
-## Install the Polymer-CLI
+In your index.html you might have:
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+    <hot-user-message-toasts>
+      <my-app></my-app>
+    </hot-user-message-toasts>
 
-## Viewing Your Application
-
-```
-$ polymer serve
-```
-
-## Building Your Application
-
-```
-$ polymer build
-```
-
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
-
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
-
-```
-$ polymer serve build/bundled
-```
-
-## Running Tests
-
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
