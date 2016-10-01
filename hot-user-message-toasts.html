@@ -70,7 +70,7 @@ In your index.html you might have:
         var type = e.type.split('-')[2];
         var toast = this.$[ type ];
         toast.text = e.detail.message;
-        toast.show();
+        if( toast.text) toast.show();
       }
     });
   </script>
