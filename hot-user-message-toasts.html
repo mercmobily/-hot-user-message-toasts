@@ -27,51 +27,47 @@ In your index.html you might have:
       paper-toast#success {
         --paper-toast-background-color: green;
         --paper-toast-color: white;
-        @apply(hot-user-message-toasts-success);
+        @apply hot-user-message-toasts-success;
       }
       ;
       paper-toast#info {
         --paper-toast-background-color: gray;
         --paper-toast-color: white;
-        @apply(hot-user-message-toasts-success);
+        @apply hot-user-message-toasts-success;
       };
 
       paper-toast#error {
         --paper-toast-background-color: red;
         --paper-toast-color: white;
-        @apply(hot-user-message-toasts-success);
+        @apply hot-user-message-toasts-success;
       };
     </style>
 
     <paper-toast id="success"></paper-toast>
     <paper-toast id="info"></paper-toast>
     <paper-toast id="error"></paper-toast>
-    <content></content>
+    <slot></slot>
   </template>
 
   <script>
-    Polymer({
+/* global Polymer,customElements */
+class HotUserMessageToast extends Polymer.Element {
+  static get is () { return 'hot-user-message-toasts' }
 
-      is: 'hot-user-message-toasts',
+  connectedCallback () {
+    super.connectedCallback()
+    this.addEventListener('user-message-success', this._messageArrived)
+    this.addEventListener('user-message-info', this._messageArrived)
+    this.addEventListener('user-message-error', this._messageArrived)
+  }
 
-      attached: function(){
-        this.listen( this, 'user-message-success', '_messageArrived' );
-        this.listen( this, 'user-message-info', '_messageArrived' );
-        this.listen( this, 'user-message-error', '_messageArrived' );
-      },
-
-      detached: function(){
-        this.unlisten( this, 'user-message-success', '_messageArrived' );
-        this.unlisten( this, 'user-message-info', '_messageArrived' );
-        this.unlisten( this, 'user-message-error', '_messageArrived' );
-      },
-
-      _messageArrived: function( e ){
-        var type = e.type.split('-')[2];
-        var toast = this.$[ type ];
-        toast.text = e.detail.message;
-        if( toast.text) toast.show();
-      }
-    });
+  _messageArrived (e) {
+    var type = e.type.split('-')[2]
+    var toast = this.$[ type ]
+    toast.text = e.detail.message
+    if (toast.text) toast.show()
+  }
+}
+customElements.define(HotUserMessageToast.is, HotUserMessageToast)
   </script>
 </dom-module>
